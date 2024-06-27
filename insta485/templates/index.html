@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <title>myPage</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
 <body>
-  <h1>Users</h1>
-  {% for user in users %}
-  <p>{{user.username}} {{user.fullname}}</p>
+  <h1>Homepage</h1>
+  {% for postid, post in posts_with_comments.items() %}
+    <div class="container">
+      <img src="{{ url_for('send_image', filename=post['post_details']['owner_filename']) }}" alt="pic" style="width:42px;height:42px;"/>
+      <p> {{ post['post_details']['post_owner'] }} {{ post['post_details']['post_created'] }} </p>
+      <img src="{{ url_for('send_image', filename=post['post_details']['post_filename']) }}" alt="post" style="width:200px;height:200px;"/>
+    </div>
   {% endfor %}
 </body>
 </html>

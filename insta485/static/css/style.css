@@ -1,0 +1,15 @@
+body {
+    text-align: center;
+}
+
+.container {
+    height: 500px;
+    width: 400px;
+    display: flex;
+    border: 2px solid black;
+    margin: auto;
+}
+
+.right {
+    text-align: right;
+}
