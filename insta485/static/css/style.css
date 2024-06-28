@@ -5,11 +5,43 @@ body {
 .container {
     height: 500px;
     width: 400px;
-    display: flex;
+    position: relative;
     border: 2px solid black;
     margin: auto;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+#postimg {
+    position: relative;
+}
+
+#postimg img {
+    width:300px;
+    height:250px;
+    position: absolute;
+    top: 70px;
+    left: 50px;
+}
+
+.left {
+    text-align: left;
+    float: left;
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+.leftimg {
+    text-align: left;
+    float: left;
+    position: relative;
 }
 
 .right {
     text-align: right;
+    float: right;
+    position: relative;
+    top: 10px;
+    right: 10px;
 }
