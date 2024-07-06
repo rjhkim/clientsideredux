@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>UserPage</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/user.css">
+</head>
+<body>
+    <a href="/"><h1>Homepage</h1></a>
+    <a href="/explore/"><h1>Explore</h1></a>
+    <a href="/users/{{ logname }}"><h1>{{ logname }}</h1></a>
+    <div class="container">
+        <h1>{{ post_details[0].owner }}</h1>
+        {% if logname == post_details[0].owner %}
+            <a href="/accounts/edit/"><h2>Edit profile</h2></a>
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="<FIXME_LOGOUT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                <input type="submit" name="logout" value="Logout"/>
+            </form>
+        {% else %}
+            {% if follow_bool[0] == 1 %}
+                following 
+                <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+                <form action="<FIXME_FOLLOWING_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                  <input type="submit" name="unfollow" value="unfollow"/>
+                  <input type="hidden" name="username" value="<FIXME_USERNAME_HERE>"/>
+                  <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+            {% else %}
+                not following
+                <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+                <form action="<FIXME_FOLLOWING_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="<FIXME_USERNAME_HERE>"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                </form>
+            {% endif %}
+        {% endif %}
+        {% if post_details[0].post_count == 1 %}
+            {{ post_details[0].post_count }} post
+        {% else %}
+            {{ post_details[0].post_count }} posts
+        {% endif %}
+        {% if follower_count[0].count == 1 %}
+            {{ follower_count[0].count }} follower
+        {% else %}
+            {{ follower_count[0].count }} followers
+        {% endif %}
+        {{ following_count[0].count }} following
+        <h2>{{ post_details[0].fullname }}</h2>
+        {% if logname == post_details[0].owner %}
+            <div class="innercontainer">
+                <form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" accept="image/*" required/>
+                    <input type="submit" name="create_post" value="upload new post"/>
+                    <input type="hidden" name="operation" value="create"/>
+                  </form>
+
+            </div>
+        {% endif %}
+    
+        {% if post_details[0].post_count == 0 %}
+            No posts yet
+        {% else %}
+            <div class="post-gallery">
+                {% for file in filename %}
+                    <img src="{{ url_for('send_image', filename=file.filename) }}" alt="post"/>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

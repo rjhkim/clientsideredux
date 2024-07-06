@@ -3,45 +3,57 @@ body {
 }
 
 .container {
-    height: 500px;
     width: 400px;
-    position: relative;
     border: 2px solid black;
     margin: auto;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 20px;
+    text-align: left;
 }
 
-#postimg {
-    position: relative;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-#postimg img {
-    width:300px;
-    height:250px;
-    position: absolute;
-    top: 70px;
-    left: 50px;
+.likebutton {
+    margin-bottom:10px;
+}
+
+#leftimg {
+    margin-right: 10px;
+}
+
+#leftimg img {
+    width: 42px;
+    height: 42px;
 }
 
 .left {
-    text-align: left;
-    float: left;
-    position: relative;
-    top: 10px;
-    left: 10px;
-}
-
-.leftimg {
-    text-align: left;
-    float: left;
-    position: relative;
+    flex: 1;
 }
 
 .right {
     text-align: right;
-    float: right;
-    position: relative;
-    top: 10px;
-    right: 10px;
+}
+
+#postimg {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#postimg img {
+    width: 100%;
+    height: auto;
+}
+
+.left2 {
+    margin: 10px 0;
+}
+
+.commentss {
+    margin: 5px 0;
+    margin-bottom:10px;
 }

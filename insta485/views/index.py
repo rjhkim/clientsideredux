@@ -38,6 +38,7 @@ def show_index():
         "users.filename AS owner_filename, "
         "users.fullname AS owner_fullname, "
         "COALESCE(likes_count.likes_count, 0) AS likes_count, "
+        "CASE WHEN user_likes.postid IS NOT NULL THEN 1 ELSE 0 END AS user_liked, "
         "comments.commentid, "
         "comments.owner AS comment_owner, "
         "comments.text AS comment_text, "
@@ -46,13 +47,16 @@ def show_index():
         "JOIN users ON posts.owner = users.username "
         "LEFT JOIN (SELECT postid, COUNT(*) AS likes_count FROM likes GROUP BY postid) likes_count "
         "ON posts.postid = likes_count.postid "
+        "LEFT JOIN (SELECT postid FROM likes WHERE owner = ?) user_likes "
+        "ON posts.postid = user_likes.postid "
         "LEFT JOIN comments ON posts.postid = comments.postid "
         "LEFT JOIN users AS comment_users ON comments.owner = comment_users.username "
         "WHERE posts.owner = ? "
         "OR posts.owner IN (SELECT username2 FROM following WHERE username1 = ?) "
         "ORDER BY posts.created DESC, posts.postid DESC, comments.created DESC",
-        (logname, logname)
+        (logname, logname, logname)
     )
+
 
     results = cur.fetchall()
     posts_with_comments = {}
@@ -67,7 +71,8 @@ def show_index():
                     'post_created': arrow.get(row['post_created']).humanize(),
                     'post_owner': row['post_owner'],
                     'owner_filename': row['owner_filename'],
-                    'likes': row['likes_count']
+                    'likes': row['likes_count'],
+                    'user_liked': row['user_liked']
                 },
                 'comments': []
              }
