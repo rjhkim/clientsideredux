@@ -3,8 +3,8 @@ import insta485
 import arrow
 from flask import send_from_directory
 
-@insta485.app.route('/users/<username>/followers/')
-def get_followers(username):
+@insta485.app.route('/users/<username>/following/')
+def get_following(username):
     #get the filename, username of each users
     #check if logname follows this person
 
@@ -22,15 +22,15 @@ def get_followers(username):
     if not user_exists:
         abort(404)
 
-    #this query selects each followers username and filename who follows the user
+    #this query selects each following username and filename of the user that the user follows
     #query checks if logname follows this username
     cur = connection.execute(
         "SELECT users.filename as filename, users.username as user, "
         "CASE WHEN follow_exists.username1 IS NOT NULL THEN 1 ELSE 0 END as follow_existing "
         "FROM users "
-        "LEFT JOIN following ON users.username = following.username1 "
+        "LEFT JOIN following ON users.username = following.username2 "
         "LEFT JOIN (SELECT username1 from following WHERE username1 = ?) follow_exists "
-        "WHERE following.username2 = ? ",
+        "WHERE following.username1 = ? ",
         (logname, username,)
     )
 
@@ -46,5 +46,5 @@ def get_followers(username):
 
     context = {"res": res,
                "logname": logname}
-    return flask.render_template("followers.html", **context)
+    return flask.render_template("following.html", **context)
 

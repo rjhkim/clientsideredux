@@ -16,6 +16,17 @@ def get_user(username):
     #post count - 
     #images for all posts - 
 
+    # Check if the user exists
+    cur_user_check = connection.execute(
+        "SELECT 1 FROM users WHERE username = ?",
+        (username,)
+    )
+    user_exists = cur_user_check.fetchone()
+
+    if not user_exists:
+        abort(404)
+
+
     #post count and the username
     cur1 = connection.execute(
         "SELECT posts.owner as owner, COUNT(*) as post_count, posts.filename as file, users.fullname as fullname "
@@ -69,7 +80,14 @@ def get_user(username):
 
     filename = cur5.fetchall()
 
-    print(filename)
+    cur6 = connection.execute(
+        "SELECT users.fullname as fullname "
+        "FROM users "
+        "WHERE users.username = ? ",
+        (username,)
+    )
+
+    fullname = cur6.fetchall()
 
     context = {
         "post_details": post_details,
@@ -77,6 +95,8 @@ def get_user(username):
         "follower_count": follower_count,
         "following_count": following_count,
         "logname": logname,
+        "username": username,
+        "fullname": fullname,
         "filename": filename
     }
 

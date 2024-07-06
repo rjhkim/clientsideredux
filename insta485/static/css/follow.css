@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+}
+
+.container {
+    width: 800px;
+    margin: auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+    border: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+#leftimg {
+    margin-right: 10px;
+}
+
+#leftimg img {
+    width: 42px;
+    height: 42px;
+}
+
+.follow-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.follow-info form {
+    margin: 0;
+}

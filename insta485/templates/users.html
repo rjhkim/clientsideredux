@@ -9,15 +9,15 @@
     <a href="/explore/"><h1>Explore</h1></a>
     <a href="/users/{{ logname }}"><h1>{{ logname }}</h1></a>
     <div class="container">
-        <h1>{{ post_details[0].owner }}</h1>
-        {% if logname == post_details[0].owner %}
+        <h1>{{ username }}</h1>
+        {% if logname == username %}
             <a href="/accounts/edit/"><h2>Edit profile</h2></a>
             <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
             <form action="<FIXME_LOGOUT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
                 <input type="submit" name="logout" value="Logout"/>
             </form>
         {% else %}
-            {% if follow_bool[0] == 1 %}
+            {% if follow_bool[0] %}
                 following 
                 <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
                 <form action="<FIXME_FOLLOWING_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
@@ -46,8 +46,8 @@
             {{ follower_count[0].count }} followers
         {% endif %}
         {{ following_count[0].count }} following
-        <h2>{{ post_details[0].fullname }}</h2>
-        {% if logname == post_details[0].owner %}
+        <h2>{{ fullname[0].fullname }}</h2>
+        {% if logname == username %}
             <div class="innercontainer">
                 <form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" accept="image/*" required/>
