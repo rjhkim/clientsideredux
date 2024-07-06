@@ -25,7 +25,7 @@ def get_followers(username):
     #this query selects each followers username and filename who follows the user
     #query checks if logname follows this username
     cur = connection.execute(
-        "SELECT users.filename as filename, users.username as user, "
+        "SELECT DISTINCT users.filename as filename, users.username as user, "
         "CASE WHEN follow_exists.username1 IS NOT NULL THEN 1 ELSE 0 END as follow_existing "
         "FROM users "
         "LEFT JOIN following ON users.username = following.username1 "
@@ -35,6 +35,8 @@ def get_followers(username):
     )
 
     results = cur.fetchall()
+
+    print(results)
     res = {}
     for row in results:
         user = row['user']

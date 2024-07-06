@@ -41,11 +41,11 @@
             {{ post_details[0].post_count }} posts
         {% endif %}
         {% if follower_count[0].count == 1 %}
-            {{ follower_count[0].count }} follower
+            <a href="/users/{{ username }}/followers/">{{ follower_count[0].count }} follower</a>
         {% else %}
-            {{ follower_count[0].count }} followers
+            <a href="/users/{{ username }}/followers/">{{ follower_count[0].count }} followers</a>
         {% endif %}
-        {{ following_count[0].count }} following
+        <a href="/users/{{ username }}/following/">{{ following_count[0].count }} following</a>
         <h2>{{ fullname[0].fullname }}</h2>
         {% if logname == username %}
             <div class="innercontainer">

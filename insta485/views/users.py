@@ -51,20 +51,22 @@ def get_user(username):
 
     #follower count
     cur3 = connection.execute(
-        "SELECT COUNT(*) as count "
+        "SELECT DISTINCT COUNT(*) as count "
         "FROM following "
         "WHERE username2 = ? ",
-        (logname,)
+        (username,)
     )
 
     follower_count = cur3.fetchall()
 
+    print(follower_count)
+
     #following count
     cur4 = connection.execute(
-        "SELECT COUNT(*) as count "
+        "SELECT DISTINCT COUNT(*) as count "
         "FROM following "
         "WHERE username1 = ? ",
-        (logname,)
+        (username,)
     )
 
     following_count = cur4.fetchall()
