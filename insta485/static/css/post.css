@@ -1,0 +1,56 @@
+body {
+    text-align: center;
+  }
+  
+  .container {
+    width: 400px;
+    border: 2px solid black;
+    margin: auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  #leftimg {
+    margin-right: 10px;
+  }
+  
+  #leftimg img {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .left {
+    flex: 1;
+  }
+  
+  .right {
+    text-align: right;
+  }
+  
+  #postimg {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  #postimg img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .left2 {
+    margin: 10px 0;
+  }
+  
+  .commentss {
+    margin: 5px 0;
+    margin-bottom: 10px;
+  }
+  

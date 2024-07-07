@@ -2,62 +2,79 @@
 <html lang="en">
 <head>
   <title>myPage</title>
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/post.css">
 </head>
 <body>
   <a href="/"><h1>Homepage</h1></a>
   <a href="/explore/"><h1>Explore</h1></a>
-  {% for postid, post in posts_with_comments.items() %}
-    <div class="container">
+  <a href="/users/{{ logname }}"><h1>{{ logname }}</h1></a>
+
+  <div class="container">
+    <div class="header">
       <div id="leftimg">
-        <a href="/users/{{ post['post_details']['post_owner'] }}/"><img src="{{ url_for('send_image', filename=post['post_details']['owner_filename']) }}" alt="pic" /></a>
+        <img src="{{ url_for('send_image', filename=post_with_comments['post_details']['owner_filename']) }}" alt="pic" />
       </div>
       <div class="left">
-        <a href="/users/{{ post['post_details']['post_owner'] }}/">{{ post['post_details']['post_owner'] }}</a>
+        {{ post_with_comments['post_details']['post_owner'] }}
       </div>
       <div class="right">
-        <a href="/posts/{{ post['post_details']['postid'] }}/">{{ post['post_details']['post_created'] }}</a>
+        {{ post_with_comments['post_details']['post_created'] }}
       </div>
-      <div id="postimg">
-        <img src="{{ url_for('send_image', filename=post['post_details']['post_filename']) }}" alt="post"/>
-      </div>
-      <div class="left2">
-        {% if post['post_details']['likes'] == 1 %}
-          {{ post['post_details']['likes'] }} like
-        {% else %}
-          {{ post['post_details']['likes'] }} likes
-        {% endif %}
-      </div>
-      {% for comment in post['comments'] %}
-        <div class="commentss">
-          <a href="/users/{{ comment['owner'] }}/">{{ comment['owner'] }}</a>
-          {{ comment['text'] }}
-        </div>
-      {% endfor %}
-      <div class="likebutton">
-        {% if post['post_details']['user_liked'] == 1 %}
-          <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="operation" value="unlike"/>
-            <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
-            <input type="submit" name="unlike" value="unlike"/>
-          </form>
-        {% else %}
-          <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="operation" value="like"/>
-            <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
-            <input type="submit" name="like" value="like"/>
-          </form>
-        {% endif %}
-      </div>
-    
-
-      <form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="create"/>
-        <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
-        <input type="text" name="text" required/>
-        <input type="submit" name="comment" value="comment"/>
-      </form>
     </div>
-  {% endfor %}
+    <div id="postimg">
+      <img src="{{ url_for('send_image', filename=post_with_comments['post_details']['post_filename']) }}" alt="post"/>
+    </div>
+    <div class="left2">
+      {% if post_with_comments['post_details']['likes_count'] == 1 %}
+        {{ post_with_comments['post_details']['likes_count'] }} like
+      {% else %}
+        {{ post_with_comments['post_details']['likes_count'] }} likes
+      {% endif %}
+    </div>
+    {% for comment in post_with_comments['comments'] %}
+      <div class="commentss">
+        <a href="/users/{{ comment['owner'] }}/">{{ comment['owner'] }}</a>
+        {{ comment['text'] }}
+        {% if logname == comment['owner']  %}
+          <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+          <form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="delete"/>
+            <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+            <input type="submit" name="uncomment" value="delete"/>
+          </form>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <div class="likebutton">
+      {% if post_with_comments['post_details']['user_liked'] == 1 %}
+        <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="operation" value="unlike"/>
+          <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+          <input type="submit" name="unlike" value="unlike"/>
+        </form>
+      {% else %}
+        <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="operation" value="like"/>
+          <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+          <input type="submit" name="like" value="like"/>
+        </form>
+      {% endif %}
+    </div>
+    <form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="operation" value="create"/>
+      <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+      <input type="text" name="text" required/>
+      <input type="submit" name="comment" value="comment"/>
+    </form>
+    {% if post_with_comments['post_details']['post_owner'] == logname %}
+      <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+      <form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_LOGGED_IN_USER_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="operation" value="delete"/>
+        <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+        <input type="submit" name="delete" value="delete this post"/>
+      </form>
+    {% endif %}
+  </div>
+
 </body>
 </html>
