@@ -7,7 +7,7 @@
 <body>
   <a href="/"><h1>Homepage</h1></a>
   <a href="/explore/"><h1>Explore</h1></a>
-  <a href="/users/{{ logname }}"><h1>{{ logname }}</h1></a>
+  <a href="/users/{{ logname }}/"><h1>{{ logname }}</h1></a>
 
   <div class="container">
     <div class="header">
@@ -15,7 +15,7 @@
         <img src="{{ url_for('send_image', filename=post_with_comments['post_details']['owner_filename']) }}" alt="pic" />
       </div>
       <div class="left">
-        {{ post_with_comments['post_details']['post_owner'] }}
+        <a href="/users/{{ post_with_comments['post_details']['post_owner'] }}/">{{ post_with_comments['post_details']['post_owner'] }}</a>
       </div>
       <div class="right">
         {{ post_with_comments['post_details']['post_created'] }}
