@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>UserPage</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/follow.css">
+</head>
+<body>
+    <a href="/"><h1>Homepage</h1></a>
+    <a href="/explore/"><h1>Explore</h1></a>
+    <a href="/users/{{ logname }}/"><h1>{{ logname }}</h1></a>
+    <h1>Discover People</h1>
+    {% for username, info in res.items() %}
+        <div class="container">
+            <div class="user-info">
+                <div id="leftimg">
+                    <img src="{{ url_for('send_image', filename=info['filename']) }}" alt="pic" />
+                </div>
+                <a href="/users/{{ username }}/"><h1>{{ username }}</h1></a>
+            </div>
+            <div class="follow-info">
+                <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+                <form action="<FIXME_FOLLOWING_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="<FIXME_USERNAME_HERE>"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>
