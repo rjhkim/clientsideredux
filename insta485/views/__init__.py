@@ -8,3 +8,4 @@ from insta485.views.explore import get_explore
 from insta485.views.login import show_login
 from insta485.views.create import show_create
 from insta485.views.delete import show_delete
+from insta485.views.edit import show_edit

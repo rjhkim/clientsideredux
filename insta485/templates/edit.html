@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>UserPage</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/follow.css">
+</head>
+<body>
+  <a href="/"><h1>Homepage</h1></a>
+  <a href="/explore/"><h1>Explore</h1></a>
+  <a href="/users/{{ logname }}/"><h1>{{ logname }}</h1></a>
+  <!-- DO NOT CHANGE THIS (aside from styling) -->
+  <div id="leftimg">
+      <img src="{{ url_for('send_image', filename=profile['filename']) }}" alt="pic" />
+  </div>
+  <a href="/users/{{ logname }}/"><h1>{{ logname }}</h1></a>
+  <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+  <form action="<FIXME_ACCOUNTS_URL_HERE>?target=<FIXME_CURRENT_URL_HERE>" method="post" enctype="multipart/form-data">
+    <h3>Photo</h3><input type="file" name="file" accept="image/*"/>
+    <h3>Name</h3><input type="text" name="fullname" value="<FIXME_FULL_NAME_HERE>" required/>
+    <h3>Email</h3><input type="text" name="email" value="<FIXME_EMAIL_HERE>" required/>
+    <input type="submit" name="update" value="submit"/>
+    <input type="hidden" name="operation" value="edit_account"/>
+  </form>
+  <h2><a href="/accounts/password/">Change password</a></h2>
+  <h2><a href="/accounts/delete/">Delete account</a></h2>
+</body>
+</html>
