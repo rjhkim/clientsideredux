@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>UserPage</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/user.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <!-- DO NOT CHANGE THIS (aside from styling) -->
+    <form action="<FIXME_ACCOUNTS_URL_HERE>?target=<FIXME_INDEX_URL_HERE>" method="post" enctype="multipart/form-data">
+        <input type="text" name="username" required/>
+        <input type="password" name="password" required/>
+        <input type="submit" value="login"/>
+        <input type="hidden" name="operation" value="login"/>
+    </form>
+    <h2>Don't have an account? <a href="/accounts/create/">Sign up</a></h2>
+</body>
+</html>
