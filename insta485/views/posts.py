@@ -73,6 +73,7 @@ def show_post(postid):
     # Add database info to context
     context = {
         "post_with_comments": post_with_comments,
-        "logname": logname
+        "logname": logname,
+        "postid": postid
         }
     return flask.render_template("posts.html", **context)

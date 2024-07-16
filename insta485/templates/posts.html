@@ -47,15 +47,15 @@
     {% endfor %}
     <div class="likebutton">
       {% if post_with_comments['post_details']['user_liked'] == 1 %}
-        <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('like_post') }}?target=/users/{{post_with_comments['post_details']['post_owner']}}/" method="post" enctype="multipart/form-data">
           <input type="hidden" name="operation" value="unlike"/>
-          <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+          <input type="hidden" name="postid" value="postid"/>
           <input type="submit" name="unlike" value="unlike"/>
         </form>
       {% else %}
-        <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('like_post') }}?target=/users/{{post_with_comments['post_details']['post_owner']}}/" method="post" enctype="multipart/form-data">
           <input type="hidden" name="operation" value="like"/>
-          <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+          <input type="hidden" name="postid" value="postid"/>
           <input type="submit" name="like" value="like"/>
         </form>
       {% endif %}

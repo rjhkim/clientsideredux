@@ -10,3 +10,4 @@ from insta485.views.create import show_create
 from insta485.views.delete import show_delete
 from insta485.views.edit import show_edit
 from insta485.views.password import show_password_page
+from insta485.views.plikes import like_post
