@@ -13,7 +13,7 @@ def like_post():
 
 
     if operation == 'like':
-        # Check if the user has already liked the post (optional)
+        # Check if the user has already liked the post 
         cur = connection.execute(
             "SELECT * FROM likes WHERE owner = ? AND postid = ?",
             (logname, postid)

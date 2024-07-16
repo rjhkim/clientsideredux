@@ -7,6 +7,7 @@
 <body>
     <a href="/"><h1>Homepage</h1></a>
     <a href="/explore/"><h1>Explore</h1></a>
+    <a href="/users/{{ logname }}/"><h1>{{ logname }}</h1></a>
     <h1>Followers</h1>
     {% for username, info in res.items() %}
         <div class="container">
@@ -20,17 +21,16 @@
                 {% if info['follow_existing'] == 1 and username != logname %}
                     <span>following</span>
                     <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-                    <form action="<FIXME_FOLLOWING_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                    <form action="{{ url_for('following_post', target=request.path) }}" method="post" enctype="multipart/form-data">
                         <input type="submit" name="unfollow" value="unfollow"/>
-                        <input type="hidden" name="username" value="<FIXME_USERNAME_HERE>"/>
+                        <input type="hidden" name="username" value="{{ username }}"/>
                         <input type="hidden" name="operation" value="unfollow"/>
                     </form>
                 {% elif info['follow_existing'] == 0 and username != logname %}
                     <span>not following</span>
-                    <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-                    <form action="<FIXME_FOLLOWING_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                    <form action="{{ url_for('following_post', target=request.path) }}" method="post" enctype="multipart/form-data">
                         <input type="submit" name="follow" value="follow"/>
-                        <input type="hidden" name="username" value="<FIXME_USERNAME_HERE>"/>
+                        <input type="hidden" name="username" value="{{ username }}"/>
                         <input type="hidden" name="operation" value="follow"/>
                     </form>
                 {% endif %}

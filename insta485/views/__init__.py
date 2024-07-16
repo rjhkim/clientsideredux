@@ -13,3 +13,4 @@ from insta485.views.password import show_password_page
 from insta485.views.plikes import like_post
 from insta485.views.pcomments import comment_post
 from insta485.views.pposts import post_post
+from insta485.views.pfollowing import following_post
