@@ -73,7 +73,7 @@ def show_post(postid):
 
     # Add database info to context
     context = {
-        "post_with_comments": post_with_comments,
+        "post_with_comments": post_with_coments,
         "logname": logname,
         "postid": postid
         }
