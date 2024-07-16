@@ -4,51 +4,52 @@ import arrow
 from flask import send_from_directory
 
 
-@insta485.app.route('/likes/', methods=['POST'])
-def like_post():
+@insta485.app.route('/comments/', methods=['POST'])
+def comment_post():
     logname = "awdeorio"
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
-    postid = flask.request.form['postid']
+    #handle cases where user tries to create empty comment
+    #handle cases where user tries to delete a comment that they do not own
 
 
-    if operation == 'like':
-        # Check if the user has already liked the post (optional)
-        cur = connection.execute(
-            "SELECT * FROM likes WHERE owner = ? AND postid = ?",
-            (logname, postid)
-        )
-        existing_like = cur.fetchone()
-        if existing_like:
-            # The user has already liked this post
-            flask.abort(409)
-        else:
-            # Insert a new like for the post
+    if operation == 'create':
+        postid = flask.request.form['postid']
+        text = flask.request.form['text']
+        # Check if user tries to create an empty comment
+        if text:
+            # Insert a new comment for the post
             connection.execute(
-                "INSERT INTO likes (owner, postid) VALUES (?, ?)",
-                (logname, postid)
+                "INSERT INTO comments (owner, postid, text) VALUES (?, ?, ?)",
+                (logname, postid, text)
             )
             # Commit the transaction (important!)
             connection.commit()
+        
+        else:
+            # User tries to submit an empty comment
+            flask.abort(400)
 
-    elif operation == 'unlike':
-        # Check if the user has already liked the post
+    elif operation == 'delete':
+        commentid = flask.request.form['commentid']
+
+        # Check if the user owns this comment
         cur = connection.execute(
-            "SELECT * FROM likes WHERE owner = ? AND postid = ?",
-            (logname, postid)
+            "SELECT * FROM comments WHERE owner = ? AND commentid = ?",
+            (logname, commentid)
         )
-        existing_like = cur.fetchone()
-        if existing_like:
-            # Remove the like for the post
+        existing_comment = cur.fetchone()
+        if existing_comment:
+            # Remove the comment for this post
             connection.execute(
-                "DELETE FROM likes WHERE owner = ? AND postid = ?",
-                (logname, postid)
+                "DELETE FROM comments WHERE owner = ? AND commentid = ?",
+                (logname, comment)
             )
             # Commit the transaction (important!)
             connection.commit()
         else:
-            # The user has not liked this post
-            flask.abort(409)
+            # The user does not own this comment
+            flask.abort(403)
     # Redirect back to the target URL
     target_url = flask.request.args.get('target', '/')
     return flask.redirect(target_url)

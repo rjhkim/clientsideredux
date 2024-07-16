@@ -20,7 +20,7 @@ def show_post(postid):
         "users.username AS post_owner, "
         "COALESCE(likes_count.likes_count, 0) AS likes_count, "
         "CASE WHEN user_likes.postid IS NOT NULL THEN 1 ELSE 0 END AS user_liked, "
-        "comments.commentid, "
+        "comments.commentid AS comment_id, "
         "comments.owner AS comment_owner, "
         "comments.text AS comment_text, "
         "comments.created AS comment_created "
@@ -63,6 +63,7 @@ def show_post(postid):
 
             if not comment_exists:
                 comment = {
+                    'comment_id': row['comment_id'],
                     'owner': row['comment_owner'],
                     'text': row['comment_text'],
                     'created': row['comment_created']
