@@ -7,10 +7,12 @@ from flask import send_from_directory
 @insta485.app.route('/posts/<postid>/')
 def show_post(postid):
 
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
+
     # Connect to database
     connection = insta485.model.get_db()
-
-    logname = "awdeorio"
 
     #get all info about post
     cur = connection.execute(

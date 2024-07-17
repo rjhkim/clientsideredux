@@ -5,10 +5,11 @@ from flask import send_from_directory
 
 @insta485.app.route('/users/<username>/')
 def get_user(username):
+    """Username page."""
     connection = insta485.model.get_db()
-
-    logname = "awdeorio"
-
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
     #name of username - 
     #follower count - 
     #following count - 
@@ -24,7 +25,7 @@ def get_user(username):
     user_exists = cur_user_check.fetchone()
 
     if not user_exists:
-        abort(404)
+        flask.abort(404)
 
 
     #post count and the username

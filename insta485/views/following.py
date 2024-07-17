@@ -7,8 +7,9 @@ from flask import send_from_directory
 def get_following(username):
     #get the filename, username of each users
     #check if logname follows this person
-
-    logname = "awdeorio"
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
 
     connection = insta485.model.get_db()
 

@@ -7,9 +7,10 @@ from flask import send_from_directory
 def get_explore():
     # This page lists all users that the logged in user is not following and includes icon, username with link to /users/user
     # also follow button
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
 
-
-    logname = "awdeorio"
 
     connection = insta485.model.get_db()
 

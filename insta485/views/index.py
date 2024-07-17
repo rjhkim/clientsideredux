@@ -13,6 +13,9 @@ from flask import send_from_directory
 @insta485.app.route('/')
 def show_index():
     """Display / route."""
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
 
     # Connect to database
     connection = insta485.model.get_db()
