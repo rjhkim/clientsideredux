@@ -14,7 +14,7 @@ def following_post():
     # Handle case where a user tries to follow a user that they already follow 
     # Handle case where user tries to unfollow a user that they do not follow
 
-    if operation == 'follow':
+    if operation == "follow":
         # Check if user already follows the username
         cur = connection.execute(
             "SELECT * FROM following WHERE username1 = ? AND username2 =?",
@@ -34,7 +34,7 @@ def following_post():
             # Commit the transaction
             connection.commit()
 
-    elif operation == 'unfollow':
+    elif operation == "unfollow":
         # Check if user already follows username
         cur = connection.execute(
             "SELECT * FROM following WHERE username1 = ? AND username2 = ?",
@@ -42,6 +42,7 @@ def following_post():
         )
         existing_follow = cur.fetchone()
         if existing_follow:
+            print("hello")
             # Remove follower
             connection.execute(
                 "DELETE FROM following WHERE username1 = ? AND username2 = ?",

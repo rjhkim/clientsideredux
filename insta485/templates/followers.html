@@ -9,30 +9,32 @@
     <a href="/explore/"><h1>Explore</h1></a>
     <a href="/users/{{ logname }}/"><h1>{{ logname }}</h1></a>
     <h1>Followers</h1>
-    {% for username, info in res.items() %}
+    {% for follower in followers %}
         <div class="container">
             <div class="user-info">
                 <div id="leftimg">
-                    <img src="{{ url_for('send_image', filename=info['filename']) }}" alt="pic" />
+                    <img src="{{ url_for('send_image', filename=follower.filename) }}" alt="pic" />
                 </div>
-                <a href="/users/{{ username }}/"><h1>{{ username }}</h1></a>
+                <a href="/users/{{ follower.username1 }}/"><h1>{{ follower.username1 }}</h1></a>
             </div>
             <div class="follow-info">
-                {% if info['follow_existing'] == 1 and username != logname %}
-                    <span>following</span>
-                    <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-                    <form action="{{ url_for('following_post', target=request.path) }}" method="post" enctype="multipart/form-data">
-                        <input type="submit" name="unfollow" value="unfollow"/>
-                        <input type="hidden" name="username" value="{{ username }}"/>
-                        <input type="hidden" name="operation" value="unfollow"/>
-                    </form>
-                {% elif info['follow_existing'] == 0 and username != logname %}
-                    <span>not following</span>
-                    <form action="{{ url_for('following_post', target=request.path) }}" method="post" enctype="multipart/form-data">
-                        <input type="submit" name="follow" value="follow"/>
-                        <input type="hidden" name="username" value="{{ username }}"/>
-                        <input type="hidden" name="operation" value="follow"/>
-                    </form>
+                {% if logname != follower.username1 %}
+                    {% if follower.username1 not in check|map(attribute='username2') %}
+                        <span>not following</span>
+                        <form action="{{ url_for('following_post', target=request.path) }}" method="post" enctype="multipart/form-data">
+                            <input type="submit" name="follow" value="follow"/>
+                            <input type="hidden" name="username" value="{{ follower.username1 }}"/>
+                            <input type="hidden" name="operation" value="follow"/>
+                        </form>
+                    {% else %}
+                        <span>following</span>
+                        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+                        <form action="{{ url_for('following_post', target=request.path) }}" method="post" enctype="multipart/form-data">
+                            <input type="submit" name="unfollow" value="unfollow"/>
+                            <input type="hidden" name="username" value="{{ follower.username1 }}"/>
+                            <input type="hidden" name="operation" value="unfollow"/>
+                        </form>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

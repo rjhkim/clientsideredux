@@ -22,29 +22,27 @@ def get_following(username):
     if not user_exists:
         abort(404)
 
-    #this query selects each following username and filename of the user that the user follows
-    #query checks if logname follows this username
-    cur = connection.execute(
-        "SELECT users.filename as filename, users.username as user, "
-        "CASE WHEN follow_exists.username1 IS NOT NULL THEN 1 ELSE 0 END as follow_existing "
-        "FROM users "
-        "LEFT JOIN following ON users.username = following.username2 "
-        "LEFT JOIN (SELECT username1 from following WHERE username1 = ?) follow_exists "
-        "WHERE following.username1 = ? ",
-        (logname, username,)
+    cur1 = connection.execute(
+        "SELECT u.filename, f.username2 "
+        "FROM users u "
+        "LEFT JOIN following f ON u.username = f.username2 "
+        "WHERE f.username1 = ?",
+        (username,)
     )
-
-    results = cur.fetchall()
-    res = {}
-    for row in results:
-        user = row['user']
-
-        res[user] = {
-            'filename': row['filename'],
-            'follow_existing': row['follow_existing']
-        }
-
-    context = {"res": res,
-               "logname": logname}
+    following = cur1.fetchall()
+    # Query database 2 see if logged in user follows them
+    cur2 = connection.execute(
+        "SELECT f.username2 "
+        "FROM following f "
+        "LEFT JOIN users u ON  f.username1 = u.username "
+        "WHERE f.username1 = ?",
+        (username,)
+    )
+    check = cur2.fetchall()
+    context = {
+        "following": following,
+        "check": check,
+        "logname": logname
+    }
     return flask.render_template("following.html", **context)
 
