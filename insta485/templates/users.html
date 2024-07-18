@@ -61,7 +61,7 @@
         {% else %}
             <div class="post-gallery">
                 {% for file in filename %}
-                    <a href="/posts/{{ file.id }}"><img src="{{ url_for('send_image', filename=file.filename) }}" alt="post"/></a>
+                    <a href="/posts/{{ file.id }}/"><img src="{{ url_for('send_image', filename=file.filename) }}" alt="post"/></a>
                 {% endfor %}
             </div>
         {% endif %}

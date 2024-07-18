@@ -16,3 +16,4 @@ from insta485.views.pposts import post_post
 from insta485.views.pfollowing import following_post
 from insta485.views.plogout import logout_post
 from insta485.views.paccount import account_post
+from insta485.views.auth import auth

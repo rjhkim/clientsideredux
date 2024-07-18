@@ -46,7 +46,7 @@ def comment_post():
             # Remove the comment for this post
             connection.execute(
                 "DELETE FROM comments WHERE owner = ? AND commentid = ?",
-                (logname, comment)
+                (logname, commentid)
             )
             # Commit the transaction (important!)
             connection.commit()
