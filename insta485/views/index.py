@@ -32,7 +32,6 @@ def show_index():
     # comment input button
     # following
 
-    logname = "awdeorio"
     cur = connection.execute(
         "SELECT posts.postid, "
         "posts.filename AS post_filename, "

@@ -7,7 +7,9 @@ from flask import session
 
 @insta485.app.route('/accounts/logout/', methods=['POST'])
 def logout_post():
-    logname = "awdeorio"
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
     session.pop('username', None)
     target_url = flask.request.args.get('target', '/accounts/login/')
     return flask.redirect(target_url)

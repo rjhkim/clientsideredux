@@ -6,7 +6,10 @@ from flask import send_from_directory
 
 @insta485.app.route('/likes/', methods=['POST'])
 def like_post():
-    logname = "awdeorio"
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
+
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
     postid = flask.request.form['postid']

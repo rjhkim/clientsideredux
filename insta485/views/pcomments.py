@@ -6,7 +6,10 @@ from flask import send_from_directory
 
 @insta485.app.route('/comments/', methods=['POST'])
 def comment_post():
-    logname = "awdeorio"
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
+
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
     #handle cases where user tries to create empty comment

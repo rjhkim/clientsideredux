@@ -12,7 +12,10 @@ def show_delete():
         return flask.redirect("/accounts/login/")
     """
 
-    logname = "awdeorio"
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
+
 
     context = {"logname": logname}
 

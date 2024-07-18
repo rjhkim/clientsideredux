@@ -6,7 +6,10 @@ from flask import send_from_directory
 
 @insta485.app.route('/accounts/password/')
 def show_password_page():
-    logname = "awdeorio"
+    if 'username' not in flask.session:
+        return flask.redirect("/accounts/login/")
+    logname = flask.session['username']
+
     context = {
        "logname": logname
     }
