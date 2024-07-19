@@ -1,11 +1,11 @@
+"""User following page."""
 import flask
 import insta485
-import arrow
-from flask import send_from_directory
 
 
 @insta485.app.route('/users/<username>/following/')
 def get_following(username):
+    """User following page."""
     # get the filename, username of each users
     # check if logname follows this person
     if 'username' not in flask.session:
@@ -19,7 +19,7 @@ def get_following(username):
     )
     user_exists = cur_user_check.fetchone()
     if not user_exists:
-        abort(404)
+        flask.abort(404)
     cur1 = connection.execute(
         "SELECT u.filename, f.username2 "
         "FROM users u "

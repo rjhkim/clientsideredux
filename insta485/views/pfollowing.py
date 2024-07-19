@@ -1,22 +1,17 @@
+"""Post requests for following."""
 import flask
 import insta485
-import arrow
-from flask import send_from_directory
 
 
 @insta485.app.route('/following/', methods=['POST'])
 def following_post():
+    """Post requests for following."""
     if 'username' not in flask.session:
         return flask.redirect("/accounts/login/")
     logname = flask.session['username']
-
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
     username = flask.request.form['username']
-    print(username)
-    # Handle case where a user tries to follow a user that they already follow 
-    # Handle case where user tries to unfollow a user that they do not follow
-
     if operation == "follow":
         # Check if user already follows the username
         cur = connection.execute(
@@ -57,8 +52,6 @@ def following_post():
         else:
             # Logname already doesn't follow username
             flask.abort(409)
-
     # Redirect back to the target URL
     target_url = flask.request.args.get('target', '/')
     return flask.redirect(target_url)
-        

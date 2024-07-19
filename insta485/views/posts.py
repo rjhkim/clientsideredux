@@ -1,12 +1,12 @@
+"""Show post."""
 import flask
-import insta485
 import arrow
-from flask import send_from_directory
+import insta485
 
 
 @insta485.app.route('/posts/<postid>/')
 def show_post(postid):
-
+    """Show post."""
     if 'username' not in flask.session:
         return flask.redirect("/accounts/login/")
     logname = flask.session['username']
@@ -14,26 +14,29 @@ def show_post(postid):
     # Connect to database
     connection = insta485.model.get_db()
 
-    #get all info about post
+    # Get all info about post
     cur = connection.execute(
         "SELECT DISTINCT posts.filename AS post_filename, "
         "posts.created AS post_created, "
         "users.filename AS owner_filename, "
         "users.username AS post_owner, "
         "COALESCE(likes_count.likes_count, 0) AS likes_count, "
-        "CASE WHEN user_likes.postid IS NOT NULL THEN 1 ELSE 0 END AS user_liked, "
+        "CASE WHEN user_likes.postid IS NOT NULL "
+        "THEN 1 ELSE 0 END AS user_liked, "
         "comments.commentid AS comment_id, "
         "comments.owner AS comment_owner, "
         "comments.text AS comment_text, "
         "comments.created AS comment_created "
         "FROM posts "
         "JOIN users ON posts.owner = users.username "
-        "LEFT JOIN (SELECT DISTINCT postid, COUNT(*) AS likes_count FROM likes GROUP BY postid) likes_count "
+        "LEFT JOIN (SELECT DISTINCT postid, COUNT(*) AS likes_count "
+        "FROM likes GROUP BY postid) likes_count "
         "ON posts.postid = likes_count.postid "
         "LEFT JOIN (SELECT DISTINCT postid FROM likes) user_likes "
         "ON posts.postid = user_likes.postid "
         "LEFT JOIN comments ON posts.postid = comments.postid "
-        "LEFT JOIN users AS comment_users ON comments.owner = comment_users.username "
+        "LEFT JOIN users AS comment_users "
+        "ON comments.owner = comment_users.username "
         "WHERE posts.postid = ? "
         "ORDER BY comments.created DESC",
         (postid,)
@@ -56,9 +59,11 @@ def show_post(postid):
     }
 
     for row in results:
-        if (row['comment_owner'] and row['comment_text'] and row['comment_created']):
+        if (row['comment_owner'] and row['comment_text']
+                and row['comment_created']):
             comment_exists = any(
-                comment['owner'] == row['comment_owner'] and comment['text'] == row['comment_text']
+                comment['owner'] == row['comment_owner']
+                and comment['text'] == row['comment_text']
                 and comment['created'] == row['comment_created']
                 for comment in post_with_comments['comments']
             )
@@ -71,8 +76,6 @@ def show_post(postid):
                     'created': row['comment_created']
                 }
                 post_with_comments['comments'].append(comment)
-
-
     # Add database info to context
     context = {
         "post_with_comments": post_with_comments,

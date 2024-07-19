@@ -1,7 +1,6 @@
+"""Create page."""
 import flask
 import insta485
-import arrow
-from flask import send_from_directory
 
 
 @insta485.app.route('/accounts/create/')

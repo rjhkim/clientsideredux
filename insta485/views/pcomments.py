@@ -1,21 +1,16 @@
+"""Comment post page."""
 import flask
 import insta485
-import arrow
-from flask import send_from_directory
 
 
 @insta485.app.route('/comments/', methods=['POST'])
 def comment_post():
+    """Comment post page."""
     if 'username' not in flask.session:
         return flask.redirect("/accounts/login/")
     logname = flask.session['username']
-
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
-    #handle cases where user tries to create empty comment
-    #handle cases where user tries to delete a comment that they do not own
-
-
     if operation == 'create':
         postid = flask.request.form['postid']
         text = flask.request.form['text']
@@ -28,7 +23,6 @@ def comment_post():
             )
             # Commit the transaction (important!)
             connection.commit()
-        
         else:
             # User tries to submit an empty comment
             flask.abort(400)
@@ -56,4 +50,3 @@ def comment_post():
     # Redirect back to the target URL
     target_url = flask.request.args.get('target', '/')
     return flask.redirect(target_url)
-        

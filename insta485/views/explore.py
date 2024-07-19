@@ -1,11 +1,11 @@
+"""Explore page."""
 import flask
 import insta485
-import arrow
-from flask import send_from_directory
 
 
 @insta485.app.route('/explore/')
 def get_explore():
+    """Explore page."""
     # This page lists all users that the logged in user
     # is not following and includes icon, username
     # with link to /users/user

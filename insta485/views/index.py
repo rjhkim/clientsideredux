@@ -6,9 +6,9 @@ URLs include:
 """
 import os
 import flask
-import insta485
 import arrow
 from flask import send_from_directory
+import insta485
 
 
 @insta485.app.route('/')

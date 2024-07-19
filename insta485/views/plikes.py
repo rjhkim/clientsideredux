@@ -1,22 +1,19 @@
+"""Post requests for likes."""
 import flask
 import insta485
-import arrow
-from flask import send_from_directory
 
 
 @insta485.app.route('/likes/', methods=['POST'])
 def like_post():
+    """Post requests for likes."""
     if 'username' not in flask.session:
         return flask.redirect("/accounts/login/")
     logname = flask.session['username']
-
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
     postid = flask.request.form['postid']
-
-
     if operation == 'like':
-        # Check if the user has already liked the post 
+        # Check if the user has already liked the post
         cur = connection.execute(
             "SELECT * FROM likes WHERE owner = ? AND postid = ?",
             (logname, postid)
@@ -33,7 +30,6 @@ def like_post():
             )
             # Commit the transaction (important!)
             connection.commit()
-
     elif operation == 'unlike':
         # Check if the user has already liked the post
         cur = connection.execute(
@@ -55,4 +51,3 @@ def like_post():
     # Redirect back to the target URL
     target_url = flask.request.args.get('target', '/')
     return flask.redirect(target_url)
-        

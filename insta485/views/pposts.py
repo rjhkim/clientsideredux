@@ -1,36 +1,34 @@
-import flask
-import insta485
-import arrow
+"""Handle post request for posts."""
 import pathlib
 import uuid
 import os
-from flask import send_from_directory
+import flask
+import insta485
 
 
 @insta485.app.route('/posts/', methods=['POST'])
 def post_post():
+    """Handle post request for posts."""
     if 'username' not in flask.session:
         return flask.redirect("/accounts/login/")
     logname = flask.session['username']
     connection = insta485.model.get_db()
     operation = flask.request.form['operation']
-    #handle case where a user tries to create post with an empty file
-
-
     if operation == 'create':
         # Unpack flask object
         fileobj = flask.request.files["file"]
         filename = fileobj.filename
-
         # Check if the file is empty
         if not filename:
-            abort(400)
-
+            flask.abort(400)
         else:
-            # Compute base name (filename without directory).  We use a UUID to avoid
-            # clashes with existing files, and ensure that the name is compatible with the
-            # filesystem. For best practive, we ensure uniform file extensions (e.g.
-            # lowercase).
+            # Compute base name (filename without directory).
+            # We use a UUID to avoid
+            # clashes with existing files, and
+            # ensure that the name is compatible with the
+            # filesystem.
+            # For best practive, we ensure uniform file extensions
+            # (e.g.lowercase).
             stem = uuid.uuid4().hex
             suffix = pathlib.Path(filename).suffix.lower()
             uuid_basename = f"{stem}{suffix}"
@@ -40,12 +38,11 @@ def post_post():
             fileobj.save(path)
 
             connection.execute(
-                 "INSERT INTO posts (owner, filename) VALUES (?, ?)",
+                "INSERT INTO posts (owner, filename) VALUES (?, ?)",
                 (logname, uuid_basename)
             )
 
             connection.commit()
-
     elif operation == 'delete':
         postid = flask.request.form['postid']
 
@@ -87,4 +84,3 @@ def post_post():
     # Redirect back to the target URL
     target_url = flask.request.args.get('target', f'/users/{logname}/')
     return flask.redirect(target_url)
-        
